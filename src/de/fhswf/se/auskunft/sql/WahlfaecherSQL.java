@@ -22,8 +22,8 @@ public class WahlfaecherSQL {
 	
 	public static void addNew(Wahlmodul modul) {
 		Float note1 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
-		Float note2 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
-		Float note3 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
+		Float note2 = (modul.getNotenListe().size() > 1) ? modul.getNotenListe().get(1) : null;
+		Float note3 = (modul.getNotenListe().size() > 2) ? modul.getNotenListe().get(2) : null;
 		MySql.execute("INSERT INTO Wahlfaecher VALUES ("
 				+ "'" + modul.getName() + "',"
 				+ note1 + ","
@@ -35,15 +35,16 @@ public class WahlfaecherSQL {
 	
 	public static void update(Wahlmodul modul) {
 		Float note1 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
-		Float note2 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
-		Float note3 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
+		Float note2 = (modul.getNotenListe().size() > 1) ? modul.getNotenListe().get(1) : null;
+		Float note3 = (modul.getNotenListe().size() > 2) ? modul.getNotenListe().get(2) : null;
 		MySql.execute("UPDATE Wahlfaecher SET "
+				+ "Name='" + modul.getName() + "',"
 				+ "Note1=" + note1 + ","
 				+ "Note2=" + note2 + ","
 				+ "Note3=" + note3 + ","
 				+ "Semester=" + modul.getSemester() + ","
 				+ "AddDatum='" + modul.getAddDatum().toString() + "'"
-						+ "WHERE Name=" + modul.getName() + ";");
+						+ "WHERE Name='" + modul.getName() + "';");
 	}
 	
 	public static void delete(Wahlmodul modul) {

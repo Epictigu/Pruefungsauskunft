@@ -25,8 +25,8 @@ import de.fhswf.se.auskunft.sql.WahlfaecherSQL;
 
 public class AddExamFrame extends JDialog{
 		
-	/** TODO Add comment for <code>serialVersionUID</code> */
 	private static final long serialVersionUID = 1L;
+	
 	private static AddExamFrame instance = null;
 	public static AddExamFrame getInstance() {
 		if(instance == null)

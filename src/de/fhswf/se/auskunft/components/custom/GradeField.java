@@ -5,37 +5,58 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import de.fhswf.se.auskunft.components.frames.AddGradeFrame;
 import de.fhswf.se.auskunft.data.Modul;
 
 public class GradeField extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
+	private Modul modul;
+	
 	private JLabel gradeLabel;
 	private GradeAddButton gradeAddButton;
 	
 	public GradeField(Modul modul) {
+		this.modul = modul;
 		setLayout(null);
 		
 		gradeAddButton = new GradeAddButton();
 		
-		String grade = "-";
-		if(!modul.getNotenListe().isEmpty()) {
-			Float gradeFloat = modul.getNotenListe().get(modul.getNotenListe().size() - 1);
-			if(gradeFloat <= 4.0)
-				gradeAddButton.setEnabled(false);
-			grade = "" + gradeFloat;
-		}
 		
-		gradeLabel = new JLabel(grade, SwingConstants.CENTER);
+		GradeField instance = this;
+		gradeAddButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new AddGradeFrame(modul, instance);
+			}
+		});
+		
+		gradeLabel = new JLabel("-", SwingConstants.CENTER);
 		add(gradeLabel);
 		
 		add(gradeAddButton);
+		
+		updateGrades();
+	}
+	
+	public void updateGrades() {
+		String grade = "-";
+		if(!modul.getNotenListe().isEmpty()) {
+			Float gradeFloat = modul.getNotenListe().get(modul.getNotenListe().size() - 1);
+			if(gradeFloat <= 4.0 || modul.getNotenListe().size() >= 3)
+				gradeAddButton.setEnabled(false);
+			grade = "" + gradeFloat;
+		}
+		gradeLabel.setText(grade);
+		repaint();
 	}
 	
 	@Override

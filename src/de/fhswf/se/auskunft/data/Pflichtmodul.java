@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.fhswf.se.auskunft.sql.PflichtfaecherSQL;
+
 /**
  * Modul, dass die Studierenden auf jeden Fall belegen müssen.
  */
@@ -19,6 +21,11 @@ public class Pflichtmodul extends Modul{
 		this.notenListe = notenListe;
 		this.semester = semester;
 		this.addDatum = addDatum;
+	}
+
+	@Override
+	protected void update() {
+		PflichtfaecherSQL.update(this);
 	}
 
 }

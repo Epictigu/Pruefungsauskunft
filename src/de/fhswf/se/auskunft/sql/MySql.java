@@ -31,6 +31,7 @@ public class MySql {
 	}
 	
 	public static void execute(String sql) {
+		System.out.println(sql);
 		try {
 			connection.createStatement().execute(sql);
 		} catch (SQLException e) {

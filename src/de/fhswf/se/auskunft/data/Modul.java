@@ -22,6 +22,7 @@ public abstract class Modul {
 	 */
 	public void setName(String name) {
 		this.name = name;
+		update();
 	}
 
 	public Integer getEcts() {
@@ -34,6 +35,7 @@ public abstract class Modul {
 	 */
 	public void setEcts(Integer ects) {
 		this.ects = ects;
+		update();
 	}
 
 	public List<Float> getNotenListe() {
@@ -46,6 +48,7 @@ public abstract class Modul {
 	 */
 	public void setNotenListe(ArrayList<Float> notenListe) {
 		this.notenListe = notenListe;
+		update();
 	}
 
 	/**
@@ -64,6 +67,7 @@ public abstract class Modul {
 		if(i < 1 || i > 5 || (i == 4 && noteBack != 0.0))
 			throw new IllegalArgumentException("Ungültige Note! Die Note darf nur von 1 bis 5 gehen und die 4 darf keinen Nachkommaanteil haben!");
 		notenListe.add(note);
+		update();
 	}
 
 	public Integer getSemester() {
@@ -76,6 +80,7 @@ public abstract class Modul {
 	 */
 	public void setSemester(Integer semester) {
 		this.semester = semester;
+		update();
 	}
 
 	public Date getAddDatum() {
@@ -88,7 +93,10 @@ public abstract class Modul {
 	 */
 	public void setAddDatum(Date addDatum) {
 		this.addDatum = addDatum;
+		update();
 	}
+	
+	protected abstract void update();
 	
 	@Override
 	public String toString() {

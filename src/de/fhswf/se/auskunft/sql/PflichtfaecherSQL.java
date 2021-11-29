@@ -23,8 +23,8 @@ public class PflichtfaecherSQL {
 	
 	public static void addNew(Pflichtmodul modul) {
 		Float note1 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
-		Float note2 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
-		Float note3 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
+		Float note2 = (modul.getNotenListe().size() > 1) ? modul.getNotenListe().get(1) : null;
+		Float note3 = (modul.getNotenListe().size() > 2) ? modul.getNotenListe().get(2) : null;
 		MySql.execute("INSERT INTO Pflichtfaecher VALUES ("
 				+ "'" + modul.getName() + "',"
 				+ modul.getEcts() + ","
@@ -37,16 +37,17 @@ public class PflichtfaecherSQL {
 	
 	public static void update(Pflichtmodul modul) {
 		Float note1 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
-		Float note2 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
-		Float note3 = (modul.getNotenListe().size() > 0) ? modul.getNotenListe().get(0) : null;
+		Float note2 = (modul.getNotenListe().size() > 1) ? modul.getNotenListe().get(1) : null;
+		Float note3 = (modul.getNotenListe().size() > 2) ? modul.getNotenListe().get(2) : null;
 		MySql.execute("UPDATE Pflichtfaecher SET "
+				+ "Name='" + modul.getName() + "',"
 				+ "Ects=" + modul.getEcts() + ","
 				+ "Note1=" + note1 + ","
 				+ "Note2=" + note2 + ","
 				+ "Note3=" + note3 + ","
 				+ "Semester=" + modul.getSemester() + ","
 				+ "AddDatum='" + modul.getAddDatum().toString() + "'"
-						+ "WHERE Name=" + modul.getName() + ";");
+						+ "WHERE Name='" + modul.getName() + "';");
 	}
 	
 	public static void delete(Pflichtmodul modul) {
