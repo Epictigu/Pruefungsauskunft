@@ -1,7 +1,8 @@
 package de.fhswf.se.auskunft.data;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Modul, dass die Studierenden auf jeden Fall belegen müssen.
@@ -12,7 +13,7 @@ public class Pflichtmodul extends Modul{
 		this("", 0,  new ArrayList<Float>(), 1, new Date(System.currentTimeMillis()));
 	}
 	
-	public Pflichtmodul(String name, Integer ects, ArrayList<Float> notenListe, Integer semester, Date addDatum) {
+	public Pflichtmodul(String name, Integer ects, List<Float> notenListe, Integer semester, Date addDatum) {
 		this.name = name;
 		this.ects = ects;
 		this.notenListe = notenListe;

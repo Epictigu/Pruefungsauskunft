@@ -1,15 +1,15 @@
 package de.fhswf.se.auskunft.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * View, der die einzelnen Fächer beinhaltet und darstellen soll.
  */
 public class PrüfungsleistungenView {
 
-	private ArrayList<Pflichtmodul> pflichtModule;
-	private ArrayList<Wahlpflichtmodul> wahlpflichtModule;
-	private ArrayList<Wahlmodul> wahlModule;
+	private List<Pflichtmodul> pflichtModule;
+	private List<Wahlmodul> wahlModule;
 	private Abschluss abschluss;
 
 	private static PrüfungsleistungenView instance = null;
@@ -22,21 +22,20 @@ public class PrüfungsleistungenView {
 	
 	private PrüfungsleistungenView() {
 		this.pflichtModule = new ArrayList<Pflichtmodul>();
-		this.wahlpflichtModule = new ArrayList<Wahlpflichtmodul>();
 		this.wahlModule = new ArrayList<Wahlmodul>();
 		this.abschluss = new Abschluss();
 	}
 	
-	public ArrayList<Pflichtmodul> getPflichtModule() {
+	public List<Pflichtmodul> getPflichtModule() {
 		return this.pflichtModule;
 	}
 
 	/**
 	 * 
-	 * @param pflichtModule
+	 * @param list
 	 */
-	public void setPflichtModule(ArrayList<Pflichtmodul> pflichtModule) {
-		this.pflichtModule = pflichtModule;
+	public void setPflichtModule(List<Pflichtmodul> list) {
+		this.pflichtModule = list;
 	}
 
 	/**
@@ -47,27 +46,7 @@ public class PrüfungsleistungenView {
 		pflichtModule.add(pflichtModul);
 	}
 
-	public ArrayList<Wahlpflichtmodul> getWahlpflichtModule() {
-		return this.wahlpflichtModule;
-	}
-
-	/**
-	 * 
-	 * @param wahlpflichtModule
-	 */
-	public void setWahlpflichtModule(ArrayList<Wahlpflichtmodul> wahlpflichtModule) {
-		this.wahlpflichtModule = wahlpflichtModule;
-	}
-
-	/**
-	 * 
-	 * @param wahlpflichtModul
-	 */
-	public void addWahlpflichtModul(Wahlpflichtmodul wahlpflichtModul) {
-		wahlpflichtModule.add(wahlpflichtModul);
-	}
-
-	public ArrayList<Wahlmodul> getWahlModule() {
+	public List<Wahlmodul> getWahlModule() {
 		return this.wahlModule;
 	}
 
@@ -75,7 +54,7 @@ public class PrüfungsleistungenView {
 	 * 
 	 * @param wahlModule
 	 */
-	public void setWahlModule(ArrayList<Wahlmodul> wahlModule) {
+	public void setWahlModule(List<Wahlmodul> wahlModule) {
 		this.wahlModule = wahlModule;
 	}
 
@@ -103,8 +82,6 @@ public class PrüfungsleistungenView {
 	public String toString() {
 		String pL = "Pflichtmodule: \n";
 		for(Pflichtmodul modul : pflichtModule) {pL = pL + modul + "\n";}
-		pL = pL + "Wahlpflichtmodule: \n";
-		for(Wahlpflichtmodul modul : wahlpflichtModule) {pL = pL + modul + "\n";}
 		pL = pL + "Wahlmodule: \n";
 		for(Wahlmodul modul : wahlModule) {pL = pL + modul + "\n";}
 		return "{Prüfungsleistungen: \n" + pL + "}";

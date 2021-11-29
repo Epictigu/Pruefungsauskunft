@@ -1,13 +1,14 @@
 package de.fhswf.se.auskunft.data;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 public abstract class Modul {
 
 	protected String name;
 	protected Integer ects;
-	protected ArrayList<Float> notenListe;
+	protected List<Float> notenListe;
 	protected Integer semester;
 	protected Date addDatum;
 	
@@ -35,7 +36,7 @@ public abstract class Modul {
 		this.ects = ects;
 	}
 
-	public ArrayList<Float> getNotenListe() {
+	public List<Float> getNotenListe() {
 		return this.notenListe;
 	}
 

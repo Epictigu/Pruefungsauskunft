@@ -1,7 +1,8 @@
 package de.fhswf.se.auskunft.data;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 /**
  * Module, die die Studierenden frei wählen können und keine ECTS Punkte bringen.
@@ -12,7 +13,7 @@ public class Wahlmodul extends Modul{
 		this("", new ArrayList<Float>(), 1, new Date(System.currentTimeMillis()));
 	}
 	
-	public Wahlmodul(String name, ArrayList<Float> notenListe, Integer semester, Date addDatum) {
+	public Wahlmodul(String name, List<Float> notenListe, Integer semester, Date addDatum) {
 		this.name = name;
 		this.notenListe = notenListe;
 		this.semester = semester;

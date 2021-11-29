@@ -3,7 +3,6 @@ package de.fhswf.se.auskunft.components.custom;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -59,7 +58,7 @@ public class FachComponent extends JPanel{
 		c.gridx = 1;
 		this.add(infoButton);
 		
-		gradeField = new GradeField();
+		gradeField = new GradeField(modul);
 		gradeField.setPreferredSize(new Dimension(60, 30));
 		c.gridx = 2;
 		this.add(gradeField);
@@ -73,6 +72,10 @@ public class FachComponent extends JPanel{
 		layout.putConstraint(SpringLayout.WEST, nameEctsGroup, 0, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, nameEctsGroup, 0, SpringLayout.NORTH, this);
 		layout.putConstraint(SpringLayout.EAST, nameEctsGroup, -5, SpringLayout.WEST, gradeField);
+	}
+	
+	public Modul getModul() {
+		return modul;
 	}
 	
 }

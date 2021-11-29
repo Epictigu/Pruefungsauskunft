@@ -13,6 +13,8 @@ import java.awt.geom.Point2D;
 
 import javax.swing.JButton;
 
+import de.fhswf.se.auskunft.Constants;
+
 public class CustomButton extends JButton {
 	
 	private static final long serialVersionUID = 1L;
@@ -50,11 +52,12 @@ public class CustomButton extends JButton {
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		if(hovered) {
-			g.setColor(new Color(242, 31, 31));
-		} else {
-			g.setColor(new Color(222, 32, 32));
-		}
+		if(!isEnabled())
+			g.setColor(Constants.COLOR_DISABLED_NORMAL);
+		else if(hovered)
+			g.setColor(Constants.COLOR_ENABLED_HOVER);
+		else
+			g.setColor(Constants.COLOR_ENABLED_NORMAL);
 		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
@@ -69,7 +72,10 @@ public class CustomButton extends JButton {
 		int textX = (getWidth() - metrics.stringWidth(getText())) / 2;
 		int textY = (getHeight() - metrics.getHeight()) / 2 + metrics.getAscent();
 		
-		g2.setColor(Color.WHITE);
+		if(isEnabled())
+			g2.setColor(Constants.COLOR_ENABLED_FONT);
+		else
+			g2.setColor(Constants.COLOR_DISABLED_FONT);
 		g2.drawString(getText(), textX, textY);
 	}
 	

@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import de.fhswf.se.auskunft.data.Modul;
+
 public class GradeField extends JPanel{
 
 	private static final long serialVersionUID = 1L;
@@ -17,13 +19,22 @@ public class GradeField extends JPanel{
 	private JLabel gradeLabel;
 	private GradeAddButton gradeAddButton;
 	
-	public GradeField() {
+	public GradeField(Modul modul) {
 		setLayout(null);
 		
-		gradeLabel = new JLabel("3.0", SwingConstants.CENTER);
+		gradeAddButton = new GradeAddButton();
+		
+		String grade = "-";
+		if(!modul.getNotenListe().isEmpty()) {
+			Float gradeFloat = modul.getNotenListe().get(modul.getNotenListe().size() - 1);
+			if(gradeFloat <= 4.0)
+				gradeAddButton.setEnabled(false);
+			grade = "" + gradeFloat;
+		}
+		
+		gradeLabel = new JLabel(grade, SwingConstants.CENTER);
 		add(gradeLabel);
 		
-		gradeAddButton = new GradeAddButton();
 		add(gradeAddButton);
 	}
 	
