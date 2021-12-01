@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 import de.fhswf.se.auskunft.components.custom.GradeField;
 import de.fhswf.se.auskunft.data.Modul;
+import de.fhswf.se.auskunft.manager.EctsManager;
 
 public class AddGradeFrame extends JDialog{
 
@@ -83,6 +84,7 @@ public class AddGradeFrame extends JDialog{
 				try {
 					modul.addNote((Float) gradeComboBox.getSelectedItem());
 					gradeField.updateGrades();
+					EctsManager.update();
 				} catch (IllegalAccessException e1) {
 					e1.printStackTrace();
 				}

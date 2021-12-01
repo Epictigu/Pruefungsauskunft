@@ -6,6 +6,8 @@ import java.util.List;
 
 public abstract class Modul {
 
+	public Integer MAX_GRADES = 3;
+	
 	protected String name;
 	protected Integer ects;
 	protected List<Float> notenListe;
@@ -21,8 +23,9 @@ public abstract class Modul {
 	 * @param name
 	 */
 	public void setName(String name) {
+		String oldName = this.name;
 		this.name = name;
-		update();
+		updateName(oldName);
 	}
 
 	public Integer getEcts() {
@@ -97,6 +100,8 @@ public abstract class Modul {
 	}
 	
 	protected abstract void update();
+	
+	protected abstract void updateName(String oldName);
 	
 	@Override
 	public String toString() {

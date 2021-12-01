@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -19,26 +20,28 @@ import javax.swing.SwingConstants;
 
 import de.fhswf.se.auskunft.data.Modul;
 import de.fhswf.se.auskunft.data.Pflichtmodul;
+import de.fhswf.se.auskunft.data.PrüfungsleistungenView;
 import de.fhswf.se.auskunft.data.Wahlmodul;
 import de.fhswf.se.auskunft.sql.PflichtfaecherSQL;
 import de.fhswf.se.auskunft.sql.WahlfaecherSQL;
 
-public class AddExamFrame extends JDialog{
-		
+public class AddExamFrame extends JDialog {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private static AddExamFrame instance = null;
+
 	public static AddExamFrame getInstance() {
-		if(instance == null)
+		if (instance == null)
 			instance = new AddExamFrame();
 		return instance;
 	}
-	
+
 	private JComboBox<String> fachTypBox;
 	private JTextField fachNameField;
 	private JSpinner fachEctsSpinner;
 	private JSpinner fachSemesterSpinner;
-	
+
 	private AddExamFrame() {
 		this.setTitle("Fach hinzufügen");
 		this.setLayout(new GridBagLayout());
@@ -47,15 +50,13 @@ public class AddExamFrame extends JDialog{
 		this.setResizable(false);
 		this.setSize(300, 200);
 		this.setLocationRelativeTo(null);
-		
-		
-		
+
 		String[] types = { "Pflichtfach", "Wahlfach" };
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(5, 10, 5, 10);
-		
+
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0;
@@ -70,7 +71,7 @@ public class AddExamFrame extends JDialog{
 		fachTypBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(fachTypBox.getSelectedIndex() == 1) {
+				if (fachTypBox.getSelectedIndex() == 1) {
 					fachEctsSpinner.setEnabled(false);
 					fachEctsSpinner.setValue(0);
 				} else {
@@ -78,7 +79,7 @@ public class AddExamFrame extends JDialog{
 				}
 			}
 		});
-		
+
 		c.gridy = 1;
 		c.gridx = 0;
 		c.weightx = 0;
@@ -88,7 +89,7 @@ public class AddExamFrame extends JDialog{
 		c.gridx = 1;
 		c.weightx = 1;
 		this.add(fachNameField, c);
-		
+
 		c.gridy = 2;
 		c.gridx = 0;
 		c.weightx = 0;
@@ -98,7 +99,7 @@ public class AddExamFrame extends JDialog{
 		c.weightx = 1;
 		fachEctsSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 30, 1));
 		this.add(fachEctsSpinner, c);
-		
+
 		c.gridy = 3;
 		c.gridx = 0;
 		c.weightx = 0;
@@ -108,7 +109,7 @@ public class AddExamFrame extends JDialog{
 		c.weightx = 1;
 		fachSemesterSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 6, 1));
 		this.add(fachSemesterSpinner, c);
-		
+
 		c.gridy = 4;
 		c.gridx = 0;
 		c.gridwidth = 2;
@@ -121,27 +122,52 @@ public class AddExamFrame extends JDialog{
 			}
 		});
 	}
-	
+
 	public void openFrame() {
 		fachTypBox.setSelectedIndex(0);
 		fachNameField.setText("");
 		fachEctsSpinner.setValue(0);
 		fachSemesterSpinner.setValue(1);
-		
+
 		this.setVisible(true);
 	}
-	
+
 	private void saveExam() {
 		Modul m = null;
-		if(fachTypBox.getSelectedIndex() == 0) { 
-			m = new Pflichtmodul(fachNameField.getText(), (Integer) fachEctsSpinner.getValue(), new ArrayList<Float>(), (Integer) fachSemesterSpinner.getValue(), new Date(System.currentTimeMillis()));
+		String name = fachNameField.getText();
+		for (Pflichtmodul modul : PrüfungsleistungenView.getInstance().getPflichtModule()) {
+			if (modul.getName().equalsIgnoreCase(name)) {
+				JOptionPane.showMessageDialog(null,
+						"Ein Fach mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Namen.");
+				return;
+			}
+		}
+		for (Wahlmodul modul : PrüfungsleistungenView.getInstance().getWahlModule()) {
+			if (modul.getName().equalsIgnoreCase(name)) {
+				JOptionPane.showMessageDialog(null,
+						"Ein Fach mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Namen.");
+				return;
+			}
+		}
+		if (name.equalsIgnoreCase("Abschlussprüfung") || name.equalsIgnoreCase("Kolloquium")) {
+			JOptionPane.showMessageDialog(null,
+					"Ein Fach mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Namen.");
+			return;
+		}
+
+		if (fachTypBox.getSelectedIndex() == 0) {
+			m = new Pflichtmodul(fachNameField.getText(), (Integer) fachEctsSpinner.getValue(), new ArrayList<Float>(),
+					(Integer) fachSemesterSpinner.getValue(), new Date(System.currentTimeMillis()));
 			PflichtfaecherSQL.addNew((Pflichtmodul) m);
-		} else { 
-			m = new Wahlmodul(fachNameField.getText(), new ArrayList<Float>(), (Integer) fachSemesterSpinner.getValue(), new Date(System.currentTimeMillis()));
-			WahlfaecherSQL.addNew((Wahlmodul)m);
+			PrüfungsleistungenView.getInstance().addPflichtModul((Pflichtmodul) m);
+		} else {
+			m = new Wahlmodul(fachNameField.getText(), new ArrayList<Float>(), (Integer) fachSemesterSpinner.getValue(),
+					new Date(System.currentTimeMillis()));
+			WahlfaecherSQL.addNew((Wahlmodul) m);
+			PrüfungsleistungenView.getInstance().addWahlModul((Wahlmodul) m);
 		}
 		MainFrame.getInstance().addExam(m);
 		setVisible(false);
 	}
-	
+
 }

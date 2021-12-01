@@ -3,6 +3,10 @@ package de.fhswf.se.auskunft.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.fhswf.se.auskunft.components.frames.MainFrame;
+import de.fhswf.se.auskunft.sql.PflichtfaecherSQL;
+import de.fhswf.se.auskunft.sql.WahlfaecherSQL;
+
 /**
  * View, der die einzelnen Fächer beinhaltet und darstellen soll.
  */
@@ -45,6 +49,12 @@ public class PrüfungsleistungenView {
 	public void addPflichtModul(Pflichtmodul pflichtModul) {
 		pflichtModule.add(pflichtModul);
 	}
+	
+	public void removePflichtModul(Pflichtmodul pflichtModul) {
+		pflichtModule.remove(pflichtModul);
+		MainFrame.getInstance().removeExam(pflichtModul);
+		PflichtfaecherSQL.delete(pflichtModul);
+	}
 
 	public List<Wahlmodul> getWahlModule() {
 		return this.wahlModule;
@@ -64,6 +74,12 @@ public class PrüfungsleistungenView {
 	 */
 	public void addWahlModul(Wahlmodul wahlModul) {
 		wahlModule.add(wahlModul);
+	}
+	
+	public void removeWahlModul(Wahlmodul wahlModul) {
+		wahlModule.remove(wahlModul);
+		MainFrame.getInstance().removeExam(wahlModul);
+		WahlfaecherSQL.delete(wahlModul);
 	}
 
 	public Abschluss getAbschluss() {

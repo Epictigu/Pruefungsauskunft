@@ -11,4 +11,7 @@ public class Constants {
 	public static Color COLOR_DISABLED_NORMAL = new Color(172, 172, 172);
 	public static Color COLOR_DISABLED_FONT = new Color(68, 68, 68);
 	
+	public static Integer ECTS_ABSCHLUSS = 12;
+	public static Integer ECTS_KOLLOQUIUM = 3;
+	
 }

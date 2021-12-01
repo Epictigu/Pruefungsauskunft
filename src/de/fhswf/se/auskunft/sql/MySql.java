@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class MySql {
 	
@@ -22,7 +23,9 @@ public class MySql {
 	
 	public static ResultSet executeQuery(String sql) {
 		try {
-			return connection.createStatement().executeQuery(sql);
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			return rs;
 		} catch (SQLException e) {
 			System.err.println("[ERROR] SQL-Anfrage konnte nicht ausgeführt werden!");
 			e.printStackTrace();
@@ -31,9 +34,10 @@ public class MySql {
 	}
 	
 	public static void execute(String sql) {
-		System.out.println(sql);
 		try {
-			connection.createStatement().execute(sql);
+			Statement statement = connection.createStatement();
+			statement.execute(sql);
+			statement.close();
 		} catch (SQLException e) {
 			System.err.println("[ERROR] SQL-Befehl konnte nicht ausgeführt werden!");
 			e.printStackTrace();

@@ -22,6 +22,8 @@ public class ExamList extends JPanel{
 	public static Map<Integer, List<FachComponent>> modulBySemester = new HashMap<Integer, List<FachComponent>>();
 	public static Map<Integer, Integer> semesterGridY = new HashMap<Integer, Integer>();
 	
+	private boolean finishedExams = true;
+	
 	public ExamList() {
 		setLayout(new GridBagLayout());
 		
@@ -35,13 +37,17 @@ public class ExamList extends JPanel{
 		c.gridy = 99999;
 		
 		add(emptySpace, c);
+		
+		for(int i = 1; i <= 6; i++) {
+			addSemesterLabel(i);
+		}
 	}
 	
 	public void addModul(Modul modul) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		
-		FachComponent fach = new FachComponent(modul);
+		FachComponent fach = new FachComponent(modul, true);
 		addModulToMap(fach);
 		c.gridx = 0;
 		c.weightx = 1;
@@ -52,6 +58,55 @@ public class ExamList extends JPanel{
 		add(fach, c);
 		
 		revalidate();
+	}
+	
+	public void hideFinishedExams() {
+		finishedExams = false;
+		for(Integer i : modulBySemester.keySet()) {
+			for(FachComponent f : modulBySemester.get(i)) {
+				Modul m = f.getModul();
+				if(!m.getNotenListe().isEmpty()) {
+					if(m.getNotenListe().size() >= 3 || m.getNotenListe().get(m.getNotenListe().size() - 1) <= 4.0f) {
+						f.setVisible(false);
+					}
+				}
+			}
+		}
+		revalidate();
+	}
+	
+	public void showAllExams() {
+		finishedExams = true;
+		for(Integer i : modulBySemester.keySet()) {
+			for(FachComponent f : modulBySemester.get(i)) {
+				f.setVisible(true);
+			}
+		}
+		revalidate();
+	}
+	
+	public boolean finishedExamsShown() {
+		return finishedExams;
+	}
+	
+	public void removeModul(Modul modul) {
+		if(modulBySemester.containsKey(modul.getSemester())) {
+			List<FachComponent> fachL = modulBySemester.get(modul.getSemester());
+			FachComponent component = null;
+			for(FachComponent fC : fachL) {
+				if(fC.getModul() == modul) {
+					component = fC;
+					break;
+				}
+			}
+			if(component != null) {
+				remove(component);
+				fachL.remove(component);
+				modulBySemester.put(modul.getSemester(), fachL);
+				
+				revalidate();
+			}
+		}
 	}
 	
 	private void addSemesterLabel(Integer semester) {
@@ -75,8 +130,6 @@ public class ExamList extends JPanel{
 		List<FachComponent> l = new ArrayList<FachComponent>();
 		if(modulBySemester.containsKey(fach.getModul().getSemester()))
 			l = modulBySemester.get(fach.getModul().getSemester());
-		else
-			addSemesterLabel(fach.getModul().getSemester());
 		l.add(fach);
 		
 		modulBySemester.put(fach.getModul().getSemester(), l);

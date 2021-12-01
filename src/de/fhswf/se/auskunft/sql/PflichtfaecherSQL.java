@@ -40,7 +40,6 @@ public class PflichtfaecherSQL {
 		Float note2 = (modul.getNotenListe().size() > 1) ? modul.getNotenListe().get(1) : null;
 		Float note3 = (modul.getNotenListe().size() > 2) ? modul.getNotenListe().get(2) : null;
 		MySql.execute("UPDATE Pflichtfaecher SET "
-				+ "Name='" + modul.getName() + "',"
 				+ "Ects=" + modul.getEcts() + ","
 				+ "Note1=" + note1 + ","
 				+ "Note2=" + note2 + ","
@@ -48,6 +47,12 @@ public class PflichtfaecherSQL {
 				+ "Semester=" + modul.getSemester() + ","
 				+ "AddDatum='" + modul.getAddDatum().toString() + "'"
 						+ "WHERE Name='" + modul.getName() + "';");
+	}
+	
+	public static void updateName(Pflichtmodul modul, String oldName) {
+		MySql.execute("UPDATE Pflichtfaecher SET "
+				+ "Name='" + modul.getName() + "'"
+						+ " WHERE Name='" + oldName + "';");
 	}
 	
 	public static void delete(Pflichtmodul modul) {

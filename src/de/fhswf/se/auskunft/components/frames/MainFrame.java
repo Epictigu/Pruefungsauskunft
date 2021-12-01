@@ -19,8 +19,9 @@ public class MainFrame extends JFrame {
 
 	private static MainFrame instance = null;
 	public static MainFrame getInstance() {
-		if(instance == null)
+		if(instance == null) {
 			instance = new MainFrame();
+		}
 		return instance;
 	}
 	
@@ -44,6 +45,7 @@ public class MainFrame extends JFrame {
 		for(Pflichtmodul modul : PrüfungsleistungenView.getInstance().getPflichtModule()) {
 			examList.addModul(modul);
 		}
+		
 		for(Wahlmodul modul : PrüfungsleistungenView.getInstance().getWahlModule()) {
 			examList.addModul(modul);
 		}
@@ -58,6 +60,25 @@ public class MainFrame extends JFrame {
 	
 	public void addExam(Modul modul) {
 		examList.addModul(modul);
+	}
+	
+	public void removeExam(Modul modul) {
+		examList.removeModul(modul);
+	}
+	
+	public void setShowFinishedExams(boolean b) {
+		if(b)
+			examList.showAllExams();
+		else
+			examList.hideFinishedExams();
+	}
+	
+	public boolean finishedExamsShown(){
+		return examList.finishedExamsShown();
+	}
+	
+	public void updateFooter() {
+		mainFooter.updateFooter();
 	}
 	
 }

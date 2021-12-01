@@ -3,6 +3,8 @@ package de.fhswf.se.auskunft.components.panels;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -10,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import de.fhswf.se.auskunft.components.custom.ExamAddButton;
+import de.fhswf.se.auskunft.components.frames.MainFrame;
 
 
 public class MainHeader extends JPanel{
@@ -32,6 +35,12 @@ public class MainHeader extends JPanel{
 		
 		completedExams = new JCheckBox("Abgeschlossene Fächer anzeigen", true);
 		completedExams.setFocusable(false);
+		completedExams.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainFrame.getInstance().setShowFinishedExams(completedExams.isSelected());
+			}
+		});
 		
 		add(mainLabel, BorderLayout.LINE_START);
 		add(addButton, BorderLayout.LINE_END);

@@ -38,13 +38,18 @@ public class WahlfaecherSQL {
 		Float note2 = (modul.getNotenListe().size() > 1) ? modul.getNotenListe().get(1) : null;
 		Float note3 = (modul.getNotenListe().size() > 2) ? modul.getNotenListe().get(2) : null;
 		MySql.execute("UPDATE Wahlfaecher SET "
-				+ "Name='" + modul.getName() + "',"
 				+ "Note1=" + note1 + ","
 				+ "Note2=" + note2 + ","
 				+ "Note3=" + note3 + ","
 				+ "Semester=" + modul.getSemester() + ","
 				+ "AddDatum='" + modul.getAddDatum().toString() + "'"
 						+ "WHERE Name='" + modul.getName() + "';");
+	}
+	
+	public static void updateName(Wahlmodul modul, String oldName) {
+		MySql.execute("UPDATE Wahlfaecher SET "
+				+ "Name='" + modul.getName() + "'"
+						+ " WHERE Name='" + oldName + "';");
 	}
 	
 	public static void delete(Wahlmodul modul) {

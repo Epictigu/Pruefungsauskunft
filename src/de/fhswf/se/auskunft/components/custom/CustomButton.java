@@ -21,6 +21,7 @@ public class CustomButton extends JButton {
 	private boolean hovered = false;
 	
 	public CustomButton(String text) {
+		
 		this.setText(text);
 		
 		this.setBorderPainted(false);

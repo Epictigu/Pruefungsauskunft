@@ -28,4 +28,9 @@ public class Pflichtmodul extends Modul{
 		PflichtfaecherSQL.update(this);
 	}
 
+	@Override
+	protected void updateName(String oldName) {
+		PflichtfaecherSQL.updateName(this, oldName);
+	}
+
 }

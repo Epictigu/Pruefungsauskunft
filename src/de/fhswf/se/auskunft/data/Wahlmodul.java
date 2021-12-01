@@ -32,5 +32,10 @@ public class Wahlmodul extends Modul{
 	protected void update() {
 		WahlfaecherSQL.update(this);
 	}
+
+	@Override
+	protected void updateName(String oldName) {
+		WahlfaecherSQL.updateName(this, oldName);
+	}
 	
 }

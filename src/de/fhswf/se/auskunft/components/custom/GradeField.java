@@ -13,19 +13,23 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import de.fhswf.se.auskunft.components.frames.AddGradeFrame;
+import de.fhswf.se.auskunft.components.frames.MainFrame;
 import de.fhswf.se.auskunft.data.Modul;
 
 public class GradeField extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Modul modul;
+	protected Modul modul;
 	
 	private JLabel gradeLabel;
-	private GradeAddButton gradeAddButton;
+	protected GradeAddButton gradeAddButton;
 	
-	public GradeField(Modul modul) {
+	private FachComponent container;
+	
+	public GradeField(Modul modul, FachComponent container) {
 		this.modul = modul;
+		this.container = container;
 		setLayout(null);
 		
 		gradeAddButton = new GradeAddButton();
@@ -40,19 +44,29 @@ public class GradeField extends JPanel{
 		});
 		
 		gradeLabel = new JLabel("-", SwingConstants.CENTER);
+		String grade = "-";
+		if(!modul.getNotenListe().isEmpty()) {
+			Float gradeFloat = modul.getNotenListe().get(modul.getNotenListe().size() - 1);
+			if(gradeFloat <= 4.0 || modul.getNotenListe().size() >= modul.MAX_GRADES) {
+				gradeAddButton.setEnabled(false);
+			}
+			grade = "" + gradeFloat;
+		}
+		gradeLabel.setText(grade);
 		add(gradeLabel);
 		
 		add(gradeAddButton);
-		
-		updateGrades();
 	}
 	
 	public void updateGrades() {
 		String grade = "-";
 		if(!modul.getNotenListe().isEmpty()) {
 			Float gradeFloat = modul.getNotenListe().get(modul.getNotenListe().size() - 1);
-			if(gradeFloat <= 4.0 || modul.getNotenListe().size() >= 3)
+			if(gradeFloat <= 4.0 || modul.getNotenListe().size() >= modul.MAX_GRADES) {
 				gradeAddButton.setEnabled(false);
+				if(!MainFrame.getInstance().finishedExamsShown())
+					container.setVisible(false);
+			}
 			grade = "" + gradeFloat;
 		}
 		gradeLabel.setText(grade);
